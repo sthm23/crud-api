@@ -103,4 +103,22 @@ function updateUser(res, req, id){
   });
 }
 
-export {getUsers, getUserById, createUser, updateUser}
+function deleteUser(res, req, id){
+  const user = users.find(item=>item.id == id);
+  const ind = users.findIndex(item=>item.id === id);
+  
+  if(user !== undefined && checkId(id)){
+    users.splice(ind, 1);
+    res.writeHead(204, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({message: 'User has been deleted'}));
+  }else if(user !== undefined && !checkId(id)){
+    res.writeHead(400, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({message: 'invalid ID'}));
+  }else{
+    res.writeHead(404, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({message: "user not found"}));
+  }
+
+}
+
+export {getUsers, getUserById, createUser, updateUser,deleteUser}
