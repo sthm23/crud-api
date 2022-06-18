@@ -15,6 +15,15 @@ let users = [
   }
 ];
 
+function checkId(id){
+  const hex = ['a','b','c','d','e','f','A','B','C','D','E','F','0','1','2','3','4','5','6','7','8','9','-'];
+  for(let i=0; i<id.length; i++){
+    if(!hex.includes(id[i])){
+      return false;
+    }
+  }
+  return true;
+}
 
 function getUsers(res, req){
   res.writeHead(200, { 'Content-Type': 'application/json' });
@@ -24,9 +33,12 @@ function getUsers(res, req){
 function getUserById(res, req, id){
   const user = users.find(item=>item.id == id);
 
-  if(user){
+  if(user !== undefined && checkId(id)){
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify(user));
+  }else if(user !== undefined && !checkId(id)){
+    res.writeHead(400, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({message: 'invalid ID'}));
   }else{
     res.writeHead(404, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({message: "user not found"}));
