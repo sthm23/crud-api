@@ -1,5 +1,5 @@
 import { createServer } from "http";
-import {  getUsers, getUserById, createUser} from './controllers/controllers.js';
+import {  getUsers, getUserById, createUser, updateUser} from './controllers/controllers.js';
 
 const PORT = process.env.PORT || 3000;
 const server = createServer((req, res)=>{
@@ -12,6 +12,9 @@ const server = createServer((req, res)=>{
     getUserById(res, req, id);
   }else if(req.url === `/api/users` && req.method === 'POST'){
     createUser(res, req);
+  }else if(req.url.match(/\/api\/users\/([0-9]+)/) && req.method === 'PUT'){
+    const id = req.url.split('/')[3];
+    updateUser(res, req, id);
   }else{
     res.writeHead(400, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({"Message": "Error"}));
