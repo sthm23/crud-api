@@ -4,10 +4,10 @@ import { getUserById } from './controllers/getUserById.js';
 import { createUser } from './controllers/createUser.js';
 import { updateUser } from './controllers/updateUser.js';
 import { deleteUser } from './controllers/deleteUser.js';
-
+import dotenv from "dotenv";
 
 let users = [];
-
+dotenv.config();
 const PORT = process.env.PORT || 3000;
 
 const server = createServer(async (req, res) => {
